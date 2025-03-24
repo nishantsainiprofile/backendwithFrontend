@@ -9,12 +9,14 @@ import multer from "multer";
 import path from "path";
 import bcrypt from "bcrypt";
 
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 // app.use(express.json());
-dotenv.config(); // equivalent of require('dotenv').config()
+// dotenv.config(); // equivalent of require('dotenv').config()
 
-import StripeLib from 'stripe';
-const Stripe = new StripeLib(process.env.Stripe_key);
+// import Stripe from 'stripe';
+// const stripe = new Stripe("sk_test_...", {
+//   apiVersion: "2024-04-10",
+// })
 import PaytmChecksum from 'paytmchecksum';
 
 // const { default: MobileCharger } = require("../Frontend/my-app/src/ElectronicsComponent/MobileCharger");
@@ -611,22 +613,23 @@ app.post("/api/UploadMobile", upload3.single("MobileImages"), async (req, res) =
        }
         });
 
- app.post("/createPaymentIntent" , async(request , response)=>{
-  const amount =request.body;
-   try{
-   const PaymentIntent = await Stripe.paymentIntents.create({
-           amount:amount*100,
-          currency:"USD" ,
-       })     
-    response.status(200).send({
-     clientSecret: PaymentIntent.client_secret
-     })
-  }catch(error){
-   console.log(error);
-  response.status(500).json({Information:"Internal error"});
-  }
-}) 
-  console.log(process.env.Stripe_key);
+//  app.post("/createPaymentIntent" , async(request , response)=>{
+//   // const amount =request.body;
+//   const { amount } = request.body;
+//    try{
+//    const PaymentIntent = await stripe.paymentIntents.create({
+//            amount:amount*100,
+//           currency:"USD" ,
+//        })     
+//     response.status(200).send({
+//      clientSecret: PaymentIntent.client_secret
+//      })
+//   }catch(error){
+//    console.log(error);
+//   response.status(500).json({Information:"Internal error"});
+//   }
+// }) 
+  // console.log(process.env.Stripe_key);
 
   const paytmMerchantKey = "YOUR_MERCHANT_KEY";
   const paytmMerchantId = "YOUR_MERCHANT_ID";
@@ -733,7 +736,8 @@ app.post("/api/paytm/callback", (req, res) => {
 //   return res.json({ results: filteredProducts });
 // });
 
-app.listen(5002 , (request,response)=>{
+// app.listen(5002 , (request,response)=>{
 
-    console.log("DataBase is running");
-})
+//     console.log("DataBase is running");
+// })
+export default app;
