@@ -1,18 +1,22 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const  bodyParser= require("body-parser"); 
-const  cors = require("cors");
-const  cookie= require("cookie");
-const cookieparser=require("cookie-parser");
-const  jsonwebtoken = require("jsonwebtoken");
-const  multer = require("multer");
-const path =require("path");
-const bcrypt =require("bcrypt");
-require('dotenv').config();
-// app.use(express.json());
+import express from "express";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import cors from "cors";
+import cookie from "cookie";
+import cookieParser from "cookie-parser";
+import jsonwebtoken from "jsonwebtoken";
+import multer from "multer";
+import path from "path";
+import bcrypt from "bcrypt";
 
-const Stripe = require('stripe')(process.env.Stripe_key);
-const PaytmChecksum = require("paytmchecksum");
+import dotenv from 'dotenv';
+// app.use(express.json());
+dotenv.config(); // equivalent of require('dotenv').config()
+
+import StripeLib from 'stripe';
+const Stripe = new StripeLib(process.env.Stripe_key);
+import PaytmChecksum from 'paytmchecksum';
+
 // const { default: MobileCharger } = require("../Frontend/my-app/src/ElectronicsComponent/MobileCharger");
 
 const connectToMongoDB = async () => {
@@ -31,7 +35,7 @@ app.use(cors({origin:"http://localhost:3002",
 )
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cookieparser());
+app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 const JWT_secretkey= process.env.JWT_SECRET_KEY
 
@@ -729,13 +733,7 @@ app.post("/api/paytm/callback", (req, res) => {
 //   return res.json({ results: filteredProducts });
 // });
 
-// app.listen(5002 , (request,response)=>{
+app.listen(5002 , (request,response)=>{
 
-//     console.log("DataBase is running");
-// })
-app.get('/', (req, res) => {
-  res.send('Hello from Vercel ES Module!');
-});
-
-export default app;
-
+    console.log("DataBase is running");
+})
