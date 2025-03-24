@@ -2,9 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js"
-  },
+  "type": "module",
+ "scripts": {
+  "start": "nodemon index.js",
+  "vercel-build": "echo 'Vercel will handle the build for node'"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -18,7 +20,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.1",
     "multer": "^1.4.5-lts.1",

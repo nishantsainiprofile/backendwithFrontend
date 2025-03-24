@@ -733,5 +733,9 @@ app.post("/api/paytm/callback", (req, res) => {
 
 //     console.log("DataBase is running");
 // })
+app.get('/', (req, res) => {
+  res.send('Hello from Vercel ES Module!');
+});
 
 export default app;
+
