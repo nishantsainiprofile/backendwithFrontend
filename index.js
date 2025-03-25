@@ -235,11 +235,10 @@ const RegisterSchema = new mongoose.Schema({
         //     }
         //   });
         cloudinary.config({
-          cloud_name: process.env.CLOUD_NAME, 
-          api_key: process.env.CLOUD_API_KEY, 
-          api_secret: process.env.CLOUD_API_SECRET
+          cloud_name: "your_cloud_name", 
+          api_key: "your_api_key", 
+          api_secret: "your_api_secret"
         });
-   
         const storage = multer.memoryStorage();
           const upload = multer({storage:storage});
       //  const upload = multer({ dest: 'uploads/' });
@@ -447,7 +446,7 @@ const upload2 = multer({ storage: storage2 });
 // const upload2 = multer({ dest: 'uploads2/' });
 app.use('/uploads2', express.static('uploads2'));
 // API Endpoint
-app.post("/api/UploadWatches", upload2.single(" WatchImages"), async (req, res) => {
+app.post("/api/UploadWatches", upload2.single("WatchImages"), async (req, res) => {
   try {
     const data2 = req.body; // Assigning req.body to data1
      console.log(data2 );
