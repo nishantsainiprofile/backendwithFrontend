@@ -34,9 +34,14 @@ const connectToMongoDB = async () => {
 connectToMongoDB();
 
 const app=express();
-app.use(cors({origin:"http://localhost:3002",
-    credentials:true  } )
+
+app.use(
+  cors({
+    origin: ["https://electronic-based-project.vercel.app/"], // Allow only your Vercel frontend
+    credentials: true, // Required if using cookies/sessions
+  })
 )
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
