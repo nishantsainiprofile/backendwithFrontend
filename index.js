@@ -8,6 +8,8 @@ import jsonwebtoken from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import bcrypt from "bcrypt";
+import cloudinary from "cloudinary";
+
 
 // import dotenv from 'dotenv';
 // app.use(express.json());
@@ -183,9 +185,6 @@ const RegisterSchema = new mongoose.Schema({
      return   response.status(500).json({session:false} )
      }
      })
-
-     
-         
         const BuildLaptopSchema= new mongoose.Schema({
         series: String,
         colour: String,
@@ -227,17 +226,23 @@ const RegisterSchema = new mongoose.Schema({
         laptopImage: String });
 
          const ModelBuildLaptop= mongoose.model(  "ModelBuildLaptop"  ,  BuildLaptopSchema);
-         const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-              cb(null, 'uploads/'); 
-            },
-            filename: (req, file, cb) => {
-              cb(null, Date.now() + path.extname(file.originalname));
-            }
-          });
-
-          // const upload = multer({storage:storage});
-       const upload = multer({ dest: 'uploads/' });
+        //  const storage = multer.diskStorage({
+        //     destination: (req, file, cb) => {
+        //       cb(null, 'uploads/'); 
+        //     },
+        //     filename: (req, file, cb) => {
+        //       cb(null, Date.now() + path.extname(file.originalname));
+        //     }
+        //   });
+        cloudinary.config({
+          cloud_name: process.env.CLOUD_NAME, 
+          api_key: process.env.CLOUD_API_KEY, 
+          api_secret: process.env.CLOUD_API_SECRET
+        });
+   
+        const storage = multer.memoryStorage();
+          const upload = multer({storage:storage});
+      //  const upload = multer({ dest: 'uploads/' });
        app.use('/uploads', express.static('uploads'));
      app.post("/api/BuildLaptop", upload.single('LaptopImage'), async (req, res) => {
       try {
@@ -245,7 +250,7 @@ const RegisterSchema = new mongoose.Schema({
        const data= req.body;  
         if (!req.file) {
         return res.status(400).json({ Information: "No image file uploaded." });
-        }  
+        } 
       const ModelBuildInformation = new ModelBuildLaptop({
                         series: data.series,
                         colour: data.colour,
@@ -286,15 +291,12 @@ const RegisterSchema = new mongoose.Schema({
                         itemWeight: data.itemweight,
                         laptopImage: req.file ? req.file.path : null,
                       });
-
-                         
                 await ModelBuildInformation.save();
                 res.status(200).json({ Information: "BuildLaptop information is saved successfully",   LaptopObject:ModelBuildInformation  });
             } catch (error) {
                 res.status(500).json({ Information: "Internal error", error: error.message });
             }
         });
-
    app.get("/api/Laptop" ,async (request, response)=>{
     try{
        const FindObject = await ModelBuildLaptop.find()
@@ -304,7 +306,6 @@ const RegisterSchema = new mongoose.Schema({
  response.status(500).json({Information:"Internal error "})
          }
        })
-               
 // Schema Definition
 const ElectronicsUploadSchema = new mongoose.Schema({
   Series: String,
@@ -332,18 +333,19 @@ const ModelChargingMobileBatteries = mongoose.model(
   "ModelChargingMobileBatteries",
   ElectronicsUploadSchema
 );
-
 // Multer Storage Configuration
-const storage1 = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads1/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// const storage1 = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads1/");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+const storage1 = multer.memoryStorage();
+const upload1 = multer({ storage: storage1 });
 
-const upload1 = multer({ dest: 'uploads1/' });
+// const upload1 = multer({ dest: 'uploads1/' });
 app.use('/uploads1', express.static('uploads1'));
 
 // API Endpoint
@@ -431,30 +433,27 @@ const ModelWatches = mongoose.model(
   "ModelWatches",
   WatchesUploadSchema
 );
-
 // Multer Storage Configuration
-const storage2 = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads2/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload2 = multer({ dest: 'uploads2/' });
+// const storage2 = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads2/");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+const storage2 = multer.memoryStorage();
+const upload2 = multer({ storage: storage2 });
+// const upload2 = multer({ dest: 'uploads2/' });
 app.use('/uploads2', express.static('uploads2'));
-
 // API Endpoint
 app.post("/api/UploadWatches", upload2.single(" WatchImages"), async (req, res) => {
   try {
     const data2 = req.body; // Assigning req.body to data1
      console.log(data2 );
-
     if (!req.file) {
       return res.status(400).json({ Information: "No image file uploaded." });
     }
-
     const WatchesModelInformation = new ModelWatches({
       Series: data2.Series,
       Price: data2.Price,
@@ -478,7 +477,6 @@ app.post("/api/UploadWatches", upload2.single(" WatchImages"), async (req, res) 
       ItemWeight: data2.ItemWeight,
       WatchImages: req.file ? req.file.path : null
     });
-
     // Save the information to MongoDB
      console.log(WatchesModelInformation  ,"this is WatchesModelInformation");
     await WatchesModelInformation.save();
@@ -500,7 +498,6 @@ app.post("/api/UploadWatches", upload2.single(" WatchImages"), async (req, res) 
        response.status(500).json({Information:"Internal error "})
        }
         });
-
   //-------------------------Mobile(API)----------------------------------------------------------------------------------
   
   // Schema Definition
@@ -539,20 +536,18 @@ const ModelMobile = mongoose.model(
 );
 
 // Multer Storage Configuration
-const storage3 = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads3/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-
-const upload3 = multer({ dest: 'uploads3/' });
-app.use('/uploads3', express.static('uploads3'));
-
-
+// const storage3 = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads3/");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+const storage3 = multer.memoryStorage();
+const upload3 = multer({ storage: storage3 });
+// const upload3 = multer({ dest: 'uploads3/' });
+// app.use('/uploads3', express.static('uploads3'));
 // API Endpoint
 app.post("/api/UploadMobile", upload3.single("MobileImages"), async (req, res) => {
   try {
@@ -562,7 +557,6 @@ app.post("/api/UploadMobile", upload3.single("MobileImages"), async (req, res) =
     if (!req.file) {
       return res.status(400).json({ Information: "No image file uploaded." });
    }
-
     const MobileModelInformation = new ModelMobile({
       Series: data3.Series,
       Price: data3.Price,
@@ -590,7 +584,6 @@ app.post("/api/UploadMobile", upload3.single("MobileImages"), async (req, res) =
       ItemWeight: data3.ItemWeight,
       MobileImages: req.file ? req.file.path : null
     });
-
     // Save the information to MongoDB
      console.log(MobileModelInformation  ,"this is WatchesModelInformation");
     await MobileModelInformation.save();
@@ -612,7 +605,6 @@ app.post("/api/UploadMobile", upload3.single("MobileImages"), async (req, res) =
        response.status(500).json({Information:"Internal error "})
        }
         });
-
 //  app.post("/createPaymentIntent" , async(request , response)=>{
 //   // const amount =request.body;
 //   const { amount } = request.body;
@@ -630,7 +622,6 @@ app.post("/api/UploadMobile", upload3.single("MobileImages"), async (req, res) =
 //   }
 // }) 
   // console.log(process.env.Stripe_key);
-
   const paytmMerchantKey = "YOUR_MERCHANT_KEY";
   const paytmMerchantId = "YOUR_MERCHANT_ID";
   const  paytmWebsite = "WEBSTAGING"; // Use "WEB" for live environment
@@ -719,7 +710,6 @@ app.post("/api/paytm/callback", (req, res) => {
     res.status(400).send("Checksum verification failed");
   }
 });
-
 // app.post("/api/search", (req, res) => {
 //   const { query } = req.body;
 //   console.log("this is ")
