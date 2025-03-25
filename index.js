@@ -37,10 +37,12 @@ const app=express();
 
 app.use(
   cors({
-    origin: ["https://electronic-based-project.vercel.app/"], // Allow only your Vercel frontend
-    credentials: true, // Required if using cookies/sessions
+    origin: "https://electronic-based-project.vercel.app", // No trailing slash
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
-)
+);
 
 app.use(express.json());
 app.use(bodyParser.json());
