@@ -84,10 +84,7 @@ const RegisterSchema = new mongoose.Schema({
     required: true
   }
 });
-
-
       const ModelRegister= mongoose.model("ModelRegister"     ,   RegisterSchema     );
-      
       app.post("/api/Register", async (request, response) => {
         try {
           const {    name,
@@ -143,8 +140,7 @@ const RegisterSchema = new mongoose.Schema({
           response.status(500).json({ Information: "Internal server error" });
         }
       });
-      
-      
+    
       app.post("/api/Login", async (request, response) => {
         try {
           const { email, password } = request.body;
@@ -239,10 +235,10 @@ const RegisterSchema = new mongoose.Schema({
           api_key: "your_api_key", 
           api_secret: "your_api_secret"
         });
-        const storage = multer.memoryStorage();
-          const upload = multer({storage:storage});
+        // const storage = multer.memoryStorage();
+          const upload = multer({storage:multer.memoryStorage()});
       //  const upload = multer({ dest: 'uploads/' });
-       app.use('/uploads', express.static('uploads'));
+      //  app.use('/uploads', express.static('uploads'));  
      app.post("/api/BuildLaptop", upload.single('LaptopImage'), async (req, res) => {
       try {
       // const { inputLaptop, inputLaptopPrice, inputLaptopInformation, inputLaptopBatteryDuration } = request.body;
@@ -326,7 +322,6 @@ const ElectronicsUploadSchema = new mongoose.Schema({
   ItemWeight: String,
   MobileBatteryImage: String, // Path to the uploaded image
 });
-
 // Model Definition
 const ModelChargingMobileBatteries = mongoose.model(
   "ModelChargingMobileBatteries",
@@ -341,12 +336,10 @@ const ModelChargingMobileBatteries = mongoose.model(
 //     cb(null, Date.now() + path.extname(file.originalname));
 //   },
 // });
-const storage1 = multer.memoryStorage();
-const upload1 = multer({ storage: storage1 });
-
+// const storage1 = multer.memoryStorage();
+const upload1 = multer({ storage: multer.memoryStorage() });
 // const upload1 = multer({ dest: 'uploads1/' });
-app.use('/uploads1', express.static('uploads1'));
-
+// app.use('/uploads1', express.static('uploads1'));
 // API Endpoint
 app.post("/api/ChargingMobile", upload1.single("MobileBatteryImage"), async (req, res) => {
   try {
@@ -441,10 +434,10 @@ const ModelWatches = mongoose.model(
 //     cb(null, Date.now() + path.extname(file.originalname));
 //   },
 // });
-const storage2 = multer.memoryStorage();
-const upload2 = multer({ storage: storage2 });
+// const storage2 = multer.memoryStorage();
+const upload2 = multer({ storage: multer.memoryStorage() });
 // const upload2 = multer({ dest: 'uploads2/' });
-app.use('/uploads2', express.static('uploads2'));
+// app.use('/uploads2', express.static('uploads2'));
 // API Endpoint
 app.post("/api/UploadWatches", upload2.single("WatchImages"), async (req, res) => {
   try {
@@ -543,8 +536,8 @@ const ModelMobile = mongoose.model(
 //     cb(null, Date.now() + path.extname(file.originalname));
 //   },
 // });
-const storage3 = multer.memoryStorage();
-const upload3 = multer({ storage: storage3 });
+// const storage3 = multer.memoryStorage();
+const upload3 = multer({ storage: multer.memoryStorage() });
 // const upload3 = multer({ dest: 'uploads3/' });
 // app.use('/uploads3', express.static('uploads3'));
 // API Endpoint
