@@ -243,9 +243,17 @@ const RegisterSchema = new mongoose.Schema({
           api_key: "913811239978551", 
           api_secret: "VbInJPhL6Q9O3zg29bg0Zd6OCOE"
         });
+        const storage = new CloudinaryStorage({
+          cloudinary: cloudinary,
+          params: {
+            folder: 'electronics_products', // Folder name in Cloudinary
+            format: async (req, file) => 'png', // Convert all images to PNG
+            public_id: (req, file) => file.originalname.split('.')[0] // Use file name
+          }
+        });
         // const storage = multer.memoryStorage();
-          const upload = multer({storage:multer.memoryStorage()});
-      //  const upload = multer({ dest: 'uploads/' });
+        const upload = multer({ storage });
+        //  const upload = multer({ dest: 'uploads/' });
       //  app.use('/uploads', express.static('uploads'));  
      app.post("/api/BuildLaptop", upload.single('LaptopImage'), async (req, res) => {
       try {
