@@ -152,7 +152,7 @@ const RegisterSchema = new mongoose.Schema({
       app.post("/api/Login", async (request, response) => {
         try {
           const { email, password } = request.body;
-      
+      console.log(email, password);
           // Check if the user exists in the database
           const RegisterInformation = await ModelRegister.findOne({ email });
           if (!RegisterInformation) {
@@ -239,9 +239,9 @@ const RegisterSchema = new mongoose.Schema({
         //     }
         //   });
         cloudinary.config({
-          cloud_name: "your_cloud_name", 
-          api_key: "your_api_key", 
-          api_secret: "your_api_secret"
+          cloud_name: "dqu0pfrmz", 
+          api_key: "913811239978551", 
+          api_secret: "VbInJPhL6Q9O3zg29bg0Zd6OCOE"
         });
         // const storage = multer.memoryStorage();
           const upload = multer({storage:multer.memoryStorage()});
