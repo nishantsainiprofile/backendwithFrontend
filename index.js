@@ -37,7 +37,7 @@ const app=express();
 
 app.use(
   cors({
-    origin: "https://electronic-based-project.vercel.app", // No trailing slash
+    origin: "*", // No trailing slash
     // origin: 'http://localhost:3002', // No trailing slash
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
