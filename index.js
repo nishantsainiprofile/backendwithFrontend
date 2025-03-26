@@ -142,7 +142,8 @@ const RegisterSchema = new mongoose.Schema({
           await RegisterInformation.save();
       
           // Return success response
-          response.status(200).json({ Information: "Register information saved successfully" });
+          // response.status(200).json({ Information: "Register information saved successfully" });
+          return response.status(201).json({ Information: "User registered successfully" });
         } catch (error) {
           console.error("Error in /api/Register:", error);
           response.status(500).json({ Information: "Internal server error" });
