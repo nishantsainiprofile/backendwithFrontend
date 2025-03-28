@@ -6,6 +6,8 @@ import cookie from "cookie";
 import cookieParser from "cookie-parser";
 import jsonwebtoken from "jsonwebtoken";
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import path from "path";
 import bcrypt from "bcrypt";
 import cloudinary from "cloudinary";
