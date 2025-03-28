@@ -10,7 +10,6 @@ import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import path from "path";
 import bcrypt from "bcrypt";
-import cloudinary from "cloudinary";
 
 
 // import dotenv from 'dotenv';
