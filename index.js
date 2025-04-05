@@ -1283,31 +1283,30 @@ const ModelWatches = mongoose.model(
   
   // Schema Definition
 const MobileUploadSchema = new mongoose.Schema({
-  Series: String,
-  Price: String,
-  BrandName: String,
-  Colour: String,
-  Display: String,
-  Chip: String,
-  Finish	: String,
-  Camera	: String,
-  FrontFacingCamera	: String,
-  SecureAuthentication	: String,
-  Battery	: String,
-  ItemModelNumber: String,
-  Material: String,
-  ChargingSpeed: String,
-  Voltage: String,
-  Manufacturer: String,
-  Capacity	:String,
-  OperatingSystem:String,
-  SpecialFeatures:String,
-  ScreenSize	:String,
-  RAMMemoryInstalledSize : String,
-  IncludedComponents: String,
-  CountryOfOrigin: String,
-  ItemWeight: String,
-  MobileImages: [{ type: String, required: true }],
+  series: String,
+price: String,
+brandname: String,
+colour: String,
+display: String,
+camera: String,
+frontfacingcamera: String,
+secureauthentication: String,
+battery: String,
+itemmodelnumber: String,
+material: String,
+chargingspeed: String,
+voltage: String,
+capacity: String,
+standingscreendisplaysize:String,
+operatingsystem: String,
+specialfeatures: String,
+screensize: String,
+rammemoryinstalledsize: String,
+includedcomponents: String,
+countryoforigin: String,
+itemweight: String,
+manufacturer: String,
+mobileimages: [{ type: String, required: true }]
 });
 
 // Model Definition
@@ -1330,7 +1329,7 @@ const ModelMobile = mongoose.model(
 // const storage3 = multer.memoryStorage();
 // const upload3 = multer({ dest: 'uploads3/' });
 // API Endpoint
-app.post("/api/UploadMobile", upload.array("MobileImages", 4), async (req, res) => {
+app.post("/api/UploadMobile", upload.array("mobileimages", 4), async (req, res) => {
   try {
     const data3 = req.body; // Assigning req.body to data1
      console.log(data3 );
@@ -1338,7 +1337,7 @@ app.post("/api/UploadMobile", upload.array("MobileImages", 4), async (req, res) 
      if (!req.files || req.files.length === 0) {
       return res.status(400).json({ Information: "No images uploaded." });
   }
-    const MobileModelInformation = new ModelMobile({
+        const MobileModelInformation = new ModelMobile({
       Series: data3.Series,
       Price: data3.Price,
       BrandName: data3.BrandName,
@@ -1356,6 +1355,7 @@ app.post("/api/UploadMobile", upload.array("MobileImages", 4), async (req, res) 
       Voltage: data3.Voltage,
       Manufacturer: data3.Manufacturer,
       Capacity: data3.Capacity,
+      standingscreendisplaysize: data3.standingscreendisplaysize,
       OperatingSystem: data3.OperatingSystem,
       SpecialFeatures: data3.SpecialFeatures,
       ScreenSize: data3.ScreenSize,
@@ -1363,7 +1363,7 @@ app.post("/api/UploadMobile", upload.array("MobileImages", 4), async (req, res) 
       IncludedComponents: data3.IncludedComponents,
       CountryOfOrigin: data3.CountryOfOrigin,
       ItemWeight: data3.ItemWeight,
-      MobileImages: req.files.map(file => file.path),
+      mobileimages: req.files.map(file => file.path),
     });
     // Save the information to MongoDB
      console.log(MobileModelInformation  ,"this is MobileModelInformation");
