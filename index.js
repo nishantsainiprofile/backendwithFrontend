@@ -1329,7 +1329,7 @@ const ModelMobile = mongoose.model(
 // const storage3 = multer.memoryStorage();
 // const upload3 = multer({ dest: 'uploads3/' });
 // API Endpoint
-app.post("/api/UploadMobile", upload.array("mobileimages", 4), async (req, res) => {
+app.post("/api/Mobile", upload.array("mobileimages", 4), async (req, res) => {
   try {
     const data3 = req.body; // Assigning req.body to data1
      console.log(data3 );
