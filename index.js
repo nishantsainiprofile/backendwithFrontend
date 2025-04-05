@@ -1307,7 +1307,7 @@ const MobileUploadSchema = new mongoose.Schema({
   IncludedComponents: String,
   CountryOfOrigin: String,
   ItemWeight: String,
-  MobileImages: String, // Path to the uploaded image
+  MobileImages: [{ type: String, required: true }],
 });
 
 // Model Definition
@@ -1330,14 +1330,14 @@ const ModelMobile = mongoose.model(
 // const storage3 = multer.memoryStorage();
 // const upload3 = multer({ dest: 'uploads3/' });
 // API Endpoint
-app.post("/api/UploadMobile", upload.single("MobileImages"), async (req, res) => {
+app.post("/api/UploadMobile", upload.array("MobileImages", 4), async (req, res) => {
   try {
     const data3 = req.body; // Assigning req.body to data1
      console.log(data3 );
 
-    if (!req.file) {
-      return res.status(400).json({ Information: "No image file uploaded." });
-   }
+     if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ Information: "No images uploaded." });
+  }
     const MobileModelInformation = new ModelMobile({
       Series: data3.Series,
       Price: data3.Price,
@@ -1363,14 +1363,14 @@ app.post("/api/UploadMobile", upload.single("MobileImages"), async (req, res) =>
       IncludedComponents: data3.IncludedComponents,
       CountryOfOrigin: data3.CountryOfOrigin,
       ItemWeight: data3.ItemWeight,
-      MobileImages: req.file ? req.file.path : null
+      MobileImages: req.files.map(file => file.path),
     });
     // Save the information to MongoDB
-     console.log(MobileModelInformation  ,"this is WatchesModelInformation");
+     console.log(MobileModelInformation  ,"this is MobileModelInformation");
     await MobileModelInformation.save();
     // console.log(ElectronicModelInformation);
     res.status(200).json({
-      Information: "BuildLaptop information is saved successfully",
+      Information: "Mobile information is saved successfully",
       MobileObject:MobileModelInformation,
     });
   } catch (error) {
