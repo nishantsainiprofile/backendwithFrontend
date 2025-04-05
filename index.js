@@ -785,7 +785,7 @@ app.use(
   cors({
     // origin: "https://electronic-based-project.vercel.app", // No trailing slash
     origin: '*', // No trailing slash
-    credentials: true,
+    credentials: false,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
