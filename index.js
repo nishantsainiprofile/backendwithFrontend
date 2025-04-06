@@ -1806,31 +1806,6 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-// app.post("/orderstatus", async (req, res) => {
-//   try {
-//     const { orderBooked, selectedElectronics, paymentId, email } = req.body;
-
-//     if (!orderBooked || !selectedElectronics || !paymentId || !email) {
-//       return res.status(400).json({ error: "Missing required fields" });
-//     }
-
-//     const newOrder = new Order({
-//       productId: selectedElectronics._id,
-//       productName: selectedElectronics.series,
-//       price: selectedElectronics.Price,
-//       email: email,
-//       paymentId: paymentId,
-//       useraddress:address,
-//     });
-        
-
-//     await newOrder.save();
-//     return res.status(201).json({ success: true, message: "Order saved successfully" });
-//   } catch (error) {
-//     console.error("Error saving order:", error);
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// });
 /*-------------Api to save the order after successfull payment-----------*/
 app.post("/api/save-order", async (request, response) => {
   try {
@@ -1862,6 +1837,21 @@ app.post("/api/save-order", async (request, response) => {
   } catch (error) {
     console.error("Error saving order:", error);
     return res.status(500).json({ message: "Internal server error while saving order" });
+  }
+});
+/*----------------API to receive the data from Orderstatus----------------*/
+app.get("/order-status", async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required." });
+    }
+
+    const orders = await Order.find({ email });
+    res.json(orders);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ message: "Server error." });
   }
 });
 /*---------------API for Delievering Location Availability---------------*/
