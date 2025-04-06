@@ -1804,33 +1804,33 @@ const orderSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
 });
 
-const Order = mongoose.model("Order", orderSchema);
+// const Order = mongoose.model("Order", orderSchema);
 
-app.post("/orderstatus", async (req, res) => {
-  try {
-    const { orderBooked, selectedElectronics, paymentId, email } = req.body;
+// app.post("/orderstatus", async (req, res) => {
+//   try {
+//     const { orderBooked, selectedElectronics, paymentId, email } = req.body;
 
-    if (!orderBooked || !selectedElectronics || !paymentId || !email) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+//     if (!orderBooked || !selectedElectronics || !paymentId || !email) {
+//       return res.status(400).json({ error: "Missing required fields" });
+//     }
 
-    const newOrder = new Order({
-      productId: selectedElectronics._id,
-      productName: selectedElectronics.series,
-      price: selectedElectronics.Price,
-      email: email,
-      paymentId: paymentId,
-      useraddress:address,
-    });
+//     const newOrder = new Order({
+//       productId: selectedElectronics._id,
+//       productName: selectedElectronics.series,
+//       price: selectedElectronics.Price,
+//       email: email,
+//       paymentId: paymentId,
+//       useraddress:address,
+//     });
         
 
-    await newOrder.save();
-    return res.status(201).json({ success: true, message: "Order saved successfully" });
-  } catch (error) {
-    console.error("Error saving order:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
+//     await newOrder.save();
+//     return res.status(201).json({ success: true, message: "Order saved successfully" });
+//   } catch (error) {
+//     console.error("Error saving order:", error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 /*-------------Api to save the order after successfull payment-----------*/
 app.post("/save-order", async (req, res) => {
   try {
