@@ -1841,12 +1841,12 @@ app.post("/api/save-order", async (req, res) => {
       email,
       paymentId,
       useraddress,
-      success,
+      // success,
     } = req.body;
 
-    if (!success) {
-      return res.status(400).json({ message: "Payment was not successful. Order not saved." });
-    }
+    // if (!success) {
+    //   return res.status(400).json({ message: "Payment was not successful. Order not saved." });
+    // }
 
     const newOrder = new Order({
       productId,
