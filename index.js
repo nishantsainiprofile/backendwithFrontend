@@ -1832,7 +1832,7 @@ const Order = mongoose.model("Order", orderSchema);
 //   }
 // });
 /*-------------Api to save the order after successfull payment-----------*/
-app.post("/save-order", async (req, res) => {
+app.post("/api/save-order", async (req, res) => {
   try {
     const {
       productId,
