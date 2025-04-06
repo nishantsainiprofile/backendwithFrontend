@@ -1832,7 +1832,7 @@ const Order = mongoose.model("Order", orderSchema);
 //   }
 // });
 /*-------------Api to save the order after successfull payment-----------*/
-app.post("/api/save-order", async (req, res) => {
+app.post("/api/save-order", async (request, response) => {
   try {
     const {
       productId,
@@ -1842,7 +1842,7 @@ app.post("/api/save-order", async (req, res) => {
       paymentId,
       useraddress,
       // success,
-    } = req.body;
+    } = request.body;
 
     // if (!success) {
     //   return res.status(400).json({ message: "Payment was not successful. Order not saved." });
@@ -1858,7 +1858,7 @@ app.post("/api/save-order", async (req, res) => {
     });
 
     await newOrder.save();
-    return res.status(201).json({ message: "Order saved successfully" });
+    return response.status(201).json({ message: "Order saved successfully" });
   } catch (error) {
     console.error("Error saving order:", error);
     return res.status(500).json({ message: "Internal server error while saving order" });
