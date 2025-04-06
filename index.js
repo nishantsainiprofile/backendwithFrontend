@@ -1834,10 +1834,18 @@ app.post("/orderstatus", async (req, res) => {
 /*-------------Api to save the order after successfull payment-----------*/
 app.post("/save-order", async (req, res) => {
   try {
-    const { productId, productName, price, email, paymentId, useraddress , success} = req.body;
+    const {
+      productId,
+      productName,
+      price,
+      email,
+      paymentId,
+      useraddress,
+      success,
+    } = req.body;
 
-    if (!productId || !productName || !price || !email || !paymentId || !useraddress) {
-      return res.status(400).json({ message: "Missing required fields" });
+    if (!success) {
+      return res.status(400).json({ message: "Payment was not successful. Order not saved." });
     }
 
     const newOrder = new Order({
@@ -1848,15 +1856,12 @@ app.post("/save-order", async (req, res) => {
       paymentId,
       useraddress,
     });
-     if (success){
+
     await newOrder.save();
-    res.status(201).json({ message: "Order saved successfully!" });
-     }else{
-      return res.status(400).json({ message: "Payment not successful" });
-     }
+    return res.status(201).json({ message: "Order saved successfully" });
   } catch (error) {
     console.error("Error saving order:", error);
-    res.status(500).json({ message: "Server error while saving order" });
+    return res.status(500).json({ message: "Internal server error while saving order" });
   }
 });
 /*---------------API for Delievering Location Availability---------------*/
