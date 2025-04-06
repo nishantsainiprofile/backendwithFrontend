@@ -1822,12 +1822,41 @@ app.post("/orderstatus", async (req, res) => {
       paymentId: paymentId,
       useraddress:address,
     });
+        
 
     await newOrder.save();
     return res.status(201).json({ success: true, message: "Order saved successfully" });
   } catch (error) {
     console.error("Error saving order:", error);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+/*-------------Api to save the order after successfull payment-----------*/
+app.post("/save-order", async (req, res) => {
+  try {
+    const { productId, productName, price, email, paymentId, useraddress , success} = req.body;
+
+    if (!productId || !productName || !price || !email || !paymentId || !useraddress) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const newOrder = new Order({
+      productId,
+      productName,
+      price,
+      email,
+      paymentId,
+      useraddress,
+    });
+     if (success){
+    await newOrder.save();
+    res.status(201).json({ message: "Order saved successfully!" });
+     }else{
+      return res.status(400).json({ message: "Payment not successful" });
+     }
+  } catch (error) {
+    console.error("Error saving order:", error);
+    res.status(500).json({ message: "Server error while saving order" });
   }
 });
 /*---------------API for Delievering Location Availability---------------*/
