@@ -1840,8 +1840,6 @@ app.post("/api/save-order", async (request, response) => {
   }
 });
 /*----------------API to receive the data from Orderstatus----------------*/
-app.use(express.json());
-app.use(bodyParser.json());
 app.get("/api/order-status", async (req, res) => {
   try {
     const { email } = req.body;
