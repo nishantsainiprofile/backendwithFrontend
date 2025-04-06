@@ -1840,7 +1840,7 @@ app.post("/api/save-order", async (request, response) => {
   }
 });
 /*----------------API to receive the data from Orderstatus----------------*/
-app.get("/order-status", async (req, res) => {
+app.get("/api/order-status", async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
