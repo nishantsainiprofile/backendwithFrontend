@@ -783,9 +783,9 @@ const app=express();
 
 app.use(
   cors({
-    // origin: "https://electronic-based-project.vercel.app", // No trailing slash
-    origin: '*', // No trailing slash
-    credentials: false,
+    origin: "https://electronic-based-project.vercel.app", // No trailing slash
+    // origin: '*',
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
