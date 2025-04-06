@@ -1858,7 +1858,7 @@ app.post("/api/save-order", async (request, response) => {
     });
 
     await newOrder.save();
-    return response.status(201).json({ message: "Order saved successfully" });
+    return response.status(201).json({ message: "Order saved and Booked successfully" });
   } catch (error) {
     console.error("Error saving order:", error);
     return res.status(500).json({ message: "Internal server error while saving order" });
